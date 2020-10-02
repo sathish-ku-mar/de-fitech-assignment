@@ -15,8 +15,8 @@ Enter the following command in the terminal:<br />`$ pip install -r requirements
 
 ### 3. Add crontab to the projects
 To add crontab to the project, run the following command:<br />`$ crontab -e`<br />
-Enter the following line in the crontab editor for run jobs every 15mins:<br />`$ 15 * * * * cd Desktop/de-fitech-assignment && /usr/bin/python3.6 task.py`
-Enter the following line in the crontab editor for run jobs every 1 hour:<br />`$ 15 * * * * cd Desktop/de-fitech-assignment && /usr/bin/python3.6 orderbook.py`
+Enter the following line in the crontab editor for run jobs every 15mins:<br />`$ 15 * * * * cd Desktop/de-fitech-assignment && /usr/bin/python3.6 task.py`<br />
+Enter the following line in the crontab editor for run jobs every 1 hour:<br />`$ * 1 * * * cd Desktop/de-fitech-assignment && /usr/bin/python3.6 orderbook.py`
 
 ------------
 ### 4. To see the results stored in the influxdb
