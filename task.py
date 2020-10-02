@@ -1,20 +1,16 @@
 import time
 import urllib.parse
-from config import client, API_ENDPOINT, FTX_API_KEY, FTX_SECRET_KEY
+
+from common import random_date
+from config import API_ENDPOINT, FTX_API_KEY, FTX_SECRET_KEY, client
 from typing import Optional, Dict, Any, List
-from datetime import datetime
-import random
-import json
-import requests
-import ftx
 import hmac
-from ciso8601 import parse_datetime
 
 from requests import Request, Session, Response
 
 
 class FtxClient:
-    _ENDPOINT = 'https://ftx.com/api/'
+    _ENDPOINT = API_ENDPOINT
 
     def __init__(self, api_key=None, api_secret=None, subaccount_name=None) -> None:
         self._session = Session()
@@ -58,26 +54,24 @@ class FtxClient:
                 raise Exception(data['error'])
             return data['result']
 
-    def get_orderbook(self, market: str, depth: int = None) -> dict:
-        return self._get(f'markets/{market}/orderbook', {'depth': depth})
-
-    def get_open_orders(self, market: str = None) -> List[dict]:
-        return self._get(f'orders', {'market': market})
-
     def place_order(self, market: str, side: str, price: float, size: float, type: str = 'limit',
                     reduce_only: bool = False, ioc: bool = False, post_only: bool = False,
                     client_id: str = None) -> dict:
-        return self._post('orders', {'market': market,
-                                     'side': side,
-                                     'price': price,
-                                     'size': size,
-                                     'type': type,
-                                     'reduceOnly': reduce_only,
-                                     'ioc': ioc,
-                                     'postOnly': post_only,
-                                     'clientId': client_id,
-                                     })
+        try:
+            return self._post('orders', {'market': market,
+                                         'side': side,
+                                         'price': price,
+                                         'size': size,
+                                         'type': type,
+                                         'reduceOnly': reduce_only,
+                                         'ioc': ioc,
+                                         'postOnly': post_only,
+                                         'clientId': client_id,
+                                         })
+        except:
+            pass
 
 
-obj = FtxClient(api_key=FTX_API_KEY, api_secret=FTX_SECRET_KEY)
-obj.place_order('BTC/USD', 'buy', 12345.0, 1)
+if __name__ == '__main__':
+    obj = FtxClient(api_key=FTX_API_KEY, api_secret=FTX_SECRET_KEY)
+    obj.place_order('BTC/USD', 'buy', 12345.0, 1)
